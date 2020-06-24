@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.io.IOException;
 
-public class registerCommand implements CommandExecutor {
+public class RegisterCommand implements CommandExecutor {
 public SecurityCore main;
 public void TestCommand(SecurityCore main){
     this.main = main;

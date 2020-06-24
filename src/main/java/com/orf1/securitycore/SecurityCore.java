@@ -61,11 +61,11 @@ private YamlConfiguration modifyPlayerData;
     }
 
     public void registerCommands(){
-        getCommand("securitycore").setExecutor(new securitycoreCommand());
-        getCommand("login").setExecutor(new loginCommand());
-        getCommand("register").setExecutor(new registerCommand());
-        getCommand("authenticate").setExecutor(new authenticateCommand());
-        getCommand("moose").setExecutor(new mooseCommand());
+        getCommand("securitycore").setExecutor(new SecurityCoreCommand());
+        getCommand("login").setExecutor(new LoginCommand());
+        getCommand("register").setExecutor(new RegisterCommand());
+        getCommand("authenticate").setExecutor(new AuthenticateCommand());
+        getCommand("moose").setExecutor(new MooseCommand());
     }
     public void registerEvents(){
         Bukkit.getPluginManager().registerEvents(this,this);
