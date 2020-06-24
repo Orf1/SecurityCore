@@ -17,4 +17,4 @@ commands:
   register:
   authenticate:
     aliases:
-      - auth
+  moose:
