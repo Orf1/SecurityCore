@@ -82,7 +82,7 @@ private YamlConfiguration modifyPlayerData;
         saveDefaultConfig();
     }
     public void initiateFiles() throws IOException {
-        playerData = new File(Bukkit.getServer().getPluginManager().getPlugin("SecurityCore").getDataFolder(), "playerdata.yml");
+        playerData = new File(this.getDataFolder(), "playerdata.yml");
         if (!playerData.exists()){
             playerData.createNewFile();
         }
