@@ -15,6 +15,7 @@ boolean authenticated = false;
     @Override
     public void onEnable() {
         System.out.println("[SecurityCore] Plugin initializing");
+        System.out.println("[SecurityCore] Server Version: " + Bukkit.getVersion());
         registerEvents();
         registerCommands();
         System.out.println("[SecurityCore] Plugin initialization complete");
@@ -27,6 +28,7 @@ boolean authenticated = false;
             authenticated = false;
             Bukkit.getPluginManager().disablePlugin(this);
         }
+
     }
 
     @Override

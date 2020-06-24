@@ -16,10 +16,8 @@ public class mooseCommand implements CommandExecutor {
             Player player = (Player) sender;
             if (player.isOp()){
                 player.sendMessage(ChatColor.RED + "Whomst Has Summoned The Moose!");
-                player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
             }
             player.sendMessage(ChatColor.RED + "You are not worthy enough to summon the moose!");
-            player.playSound(player.getLocation(), Sound.ENTITY_SILVERFISH_DEATH, 1, 1);
         }else {
             System.out.println("This command can only be used in-game");
         }
