@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SecurityCore">
+    <output-path>$PROJECT_DIR$/out/artifacts/SecurityCore</output-path>
+    <root id="archive" name="SecurityCore.jar">
+      <element id="module-output" name="SecurityCore" />
+    </root>
+  </artifact>
+</component>
