@@ -16,6 +16,7 @@ public class mooseCommand implements CommandExecutor {
             Player player = (Player) sender;
             if (player.isOp()){
                 player.sendMessage(ChatColor.RED + "Whomst Has Summoned The Moose!");
+
             }
             player.sendMessage(ChatColor.RED + "You are not worthy enough to summon the moose!");
         }else {

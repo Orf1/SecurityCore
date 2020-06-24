@@ -2,22 +2,34 @@ package com.orf1.securitycore;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.io.IOException;
 
 public final class SecurityCore extends JavaPlugin implements Listener {
 
 boolean authenticated = false;
-
+private File playerData;
+private YamlConfiguration modifyPlayerData;
     @Override
     public void onEnable() {
         System.out.println("[SecurityCore] Plugin initializing");
         System.out.println("[SecurityCore] Server Version: " + Bukkit.getVersion());
         registerEvents();
         registerCommands();
+        loadConfig();
+        try {
+            initiateFiles();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("[SecurityCore] Plugin initialization complete");
         System.out.println("[SecurityCore] Starting authentication");
         if (authenticate()){
@@ -30,6 +42,8 @@ boolean authenticated = false;
         }
 
     }
+
+
 
     @Override
     public void onDisable() {
@@ -56,7 +70,26 @@ boolean authenticated = false;
     public void registerEvents(){
         Bukkit.getPluginManager().registerEvents(this,this);
     }
-    public boolean authenticate(){
-        return true;
+    public File getFile(){
+        return playerData;
     }
+    public boolean authenticate(){
+
+        return this.getConfig().getBoolean("auth");
+    }
+    public void loadConfig() {
+        this.getConfig().options().copyDefaults();
+        saveDefaultConfig();
+    }
+    public void initiateFiles() throws IOException {
+        playerData = new File(Bukkit.getServer().getPluginManager().getPlugin("SecurityCore").getDataFolder(), "playerdata.yml");
+        if (!playerData.exists()){
+            playerData.createNewFile();
+        }
+        modifyPlayerData = YamlConfiguration.loadConfiguration(playerData);
+    }
+    public YamlConfiguration getPlayerData(){
+        return modifyPlayerData;
+    }
+
 }
