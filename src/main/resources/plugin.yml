@@ -1,0 +1,20 @@
+name: SecurityCore
+version: ${project.version}
+main: com.orf9.securitycore.SecurityCore
+api-version: 1.13
+load: STARTUP
+authors: [Orf9]
+description: Simple plugin for keeping your server secure!
+commands:
+  securitycore:
+    description: Used to run all the Security Core commands.
+    aliases:
+      - sc
+      - security
+      - secureityc
+    permission: securitycore.admin
+  login:
+  register:
+  authenticate:
+    aliases:
+      - auth
