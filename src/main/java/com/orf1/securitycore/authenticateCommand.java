@@ -18,8 +18,8 @@ public class authenticateCommand implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (player.isOp()){
-                main.getPlayerData().createSection("test1");
-                main.getPlayerData().createSection("test2");
+                main.getPlayerData().createSection("12345");
+                main.getPlayerData().createSection("123");
                 try {
                     main.getPlayerData().save(main.getFile());
                     player.sendMessage(ChatColor.GREEN + "[SecurityCore] "+ ChatColor.WHITE + "Created playerdata File");
