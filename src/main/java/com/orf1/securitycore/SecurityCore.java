@@ -49,6 +49,7 @@ boolean authenticated = false;
         getCommand("login").setExecutor(new loginCommand());
         getCommand("register").setExecutor(new registerCommand());
         getCommand("authenticate").setExecutor(new authenticateCommand());
+        getCommand("moose").setExecutor(new mooseCommand());
     }
     public void registerEvents(){
         Bukkit.getPluginManager().registerEvents(this,this);
