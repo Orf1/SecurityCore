@@ -1,4 +1,4 @@
-package com.orf9.securitycore;
+package com.orf1.securitycore;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;

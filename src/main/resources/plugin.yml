@@ -1,9 +1,9 @@
 name: SecurityCore
 version: ${project.version}
-main: com.orf9.securitycore.SecurityCore
+main: com.orf1.securitycore.SecurityCore
 api-version: 1.13
 load: STARTUP
-authors: [Orf9]
+authors: [Orf1]
 description: Simple plugin for keeping your server secure!
 commands:
   securitycore:
