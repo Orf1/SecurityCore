@@ -2,16 +2,23 @@ package com.orf1.securitycore;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
 
-public final class SecurityCore extends JavaPlugin implements Listener {
 
-boolean debug = false;
+public final class Main extends JavaPlugin implements Listener {
+
+    boolean debug = false;
+
+    private File testFile;
+    private YamlConfiguration modifyTestFile;
 
     @Override
     public void onEnable() {
@@ -22,8 +29,29 @@ boolean debug = false;
         checkAuthentication();
         registerEvents();
         registerCommands();
+        try {
+            initiateFiles();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         System.out.println("[SecurityCore] Initialization complete");
+    }
+
+    private void initiateFiles() throws IOException {
+        testFile = new File(this.getDataFolder(), "playerdata.yml");
+        if (!testFile.exists()) {
+            testFile.createNewFile();
+        }
+        modifyTestFile = YamlConfiguration.loadConfiguration(testFile);
+    }
+
+    public YamlConfiguration getTestFile() {
+        return modifyTestFile;
+    }
+
+    public File getFile(){
+        return testFile;
     }
 
     @Override
@@ -49,7 +77,7 @@ boolean debug = false;
     }
 
     public void registerEvents() {
-        Bukkit.getPluginManager().registerEvents(this,this);
+        Bukkit.getPluginManager().registerEvents(this, this);
     }
 
     private void checkAuthentication() {
@@ -57,10 +85,9 @@ boolean debug = false;
 
         if (this.getConfig().getBoolean("auth")) {
             System.out.println("[SecurityCore] Authentication complete");
-        }
-        else {
-                System.out.println("[SecurityCore] Authentication failed");
-                Bukkit.getPluginManager().disablePlugin(this);
+        } else {
+            System.out.println("[SecurityCore] Authentication failed");
+            Bukkit.getPluginManager().disablePlugin(this);
         }
     }
 

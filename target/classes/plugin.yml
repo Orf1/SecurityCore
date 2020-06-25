@@ -1,6 +1,6 @@
 name: SecurityCore
 version: 1.0-SHAPSHOT
-main: com.orf1.securitycore.SecurityCore
+main: com.orf1.securitycore.Main
 api-version: 1.13
 load: STARTUP
 authors: [Orf1]
@@ -12,9 +12,7 @@ commands:
       - sc
       - security
       - secureityc
-    permission: securitycore.admin
   login:
   register:
   authenticate:
-    aliases:
-  moose:
+  setup:
