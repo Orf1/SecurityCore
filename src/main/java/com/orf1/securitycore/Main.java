@@ -63,21 +63,22 @@ public final class Main extends JavaPlugin implements Listener {
     public void onLogin(PlayerLoginEvent e) {
         System.out.println("[SecurityCore] Player logged in with IP:" + e.getRealAddress());
         Player player = e.getPlayer();
-        modifyPlayerData.createSection(player.getUniqueId().toString());
-        modifyPlayerData.createSection(player.getUniqueId().toString() + ".Name");
-        modifyPlayerData.createSection(player.getUniqueId().toString() + ".IPAddress");
-        modifyPlayerData.createSection(player.getUniqueId().toString() + ".Registered");
-        modifyPlayerData.createSection(player.getUniqueId().toString() + ".Pin");
-        modifyPlayerData.createSection(player.getUniqueId().toString() + ".LoggedIn");
-
-        saveFile(modifyPlayerData, playerDataFile);
+        if (!modifyPlayerData.contains(player.getUniqueId().toString())) {
+            modifyPlayerData.createSection(player.getUniqueId().toString());
+            modifyPlayerData.createSection(player.getUniqueId().toString() + ".Name");
+            modifyPlayerData.createSection(player.getUniqueId().toString() + ".IPAddress");
+            modifyPlayerData.createSection(player.getUniqueId().toString() + ".Registered");
+            modifyPlayerData.createSection(player.getUniqueId().toString() + ".Pin");
+            modifyPlayerData.createSection(player.getUniqueId().toString() + ".LoggedIn");
+            saveFile(modifyPlayerData, playerDataFile);
+        }
 
         modifyPlayerData.set(player.getUniqueId().toString() + ".Name", player.getName());
         modifyPlayerData.set(player.getUniqueId().toString() + ".IP", e.getRealAddress().toString());
         modifyPlayerData.set(player.getUniqueId().toString() + ".LoggedIn", false);
 
-        if (!modifyPlayerData.get(player.getUniqueId().toString() + ".Registered").equals(true)){
-            modifyPlayerData.set(player.getUniqueId().toString() + ".Registered", false);
+        if (!modifyPlayerData.get(player.getUniqueId().toString() + ".Registered").equals("true")){
+            modifyPlayerData.set(player.getUniqueId().toString() + ".Registered", "false");
             modifyPlayerData.set(player.getUniqueId().toString() + ".Pin", "NA");
         }
 
@@ -90,7 +91,7 @@ public final class Main extends JavaPlugin implements Listener {
 
         if (player.hasPermission("securitycore.staff")){
 
-            if (modifyPlayerData.get(player.getUniqueId().toString() + ".Registered").equals(true)){
+            if (modifyPlayerData.get(player.getUniqueId().toString() + ".Registered").equals("true")){
                 player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "Welcome! Make sure to login using /login");
             }else {
                 player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "Welcome! Make sure to set a pin using /register");
@@ -131,7 +132,7 @@ public final class Main extends JavaPlugin implements Listener {
 
         if (player.hasPermission("securitycore.staff")){
             if (!loggedIn) {
-                if (!e.getMessage().toLowerCase().contains("help") || !e.getMessage().toLowerCase().contains("login") || !e.getMessage().toLowerCase().contains("register")) {
+                if (!e.getMessage().toLowerCase().contains("help") && !e.getMessage().toLowerCase().contains("login") && !e.getMessage().toLowerCase().contains("register")) {
                     e.setCancelled(true);
                     player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "You must be logged in to do that! /login");
                 }
