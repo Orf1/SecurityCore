@@ -17,16 +17,16 @@ public class RegisterCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if(args.length != 1){
-                player.sendMessage("Invalid Args!");
+                player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "Invalid usage! /register [pin]");
             }else if (main.getPlayerData().get(player.getUniqueId().toString() + ".REGISTERED").equals(false)){
                 String pin = args[0];
                 main.getPlayerData().set(player.getUniqueId().toString() + ".PIN", pin);
                 main.getPlayerData().set(player.getUniqueId().toString() + ".REGISTERED", true);
                 main.saveFile(main.getPlayerData(), main.getPlayerDataFile());
 
-                player.sendMessage("You have successfully registered with pin: " + pin);
+                player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "You have successfully registered with pin: " + pin);
             }else{
-                player.sendMessage("You are already registered! If you would like to change your pin, contact an admin.");
+                player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "You are already registered! If you would like to change your pin, contact an admin.");
             }
 
         } else {
