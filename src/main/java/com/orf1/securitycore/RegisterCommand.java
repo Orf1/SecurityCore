@@ -17,20 +17,20 @@ public class RegisterCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if(args.length != 1){
-                player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "Invalid usage! /register [pin]");
-            }else if (main.getPlayerData().get(player.getUniqueId().toString() + ".REGISTERED").equals(false)){
+                player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "Invalid usage! /register [pin]");
+            }else if (main.getPlayerData().get(player.getUniqueId().toString() + ".Registered").equals(false)){
                 String pin = args[0];
-                main.getPlayerData().set(player.getUniqueId().toString() + ".PIN", pin);
-                main.getPlayerData().set(player.getUniqueId().toString() + ".REGISTERED", true);
+                main.getPlayerData().set(player.getUniqueId().toString() + ".Pin", pin);
+                main.getPlayerData().set(player.getUniqueId().toString() + ".Registered", true);
                 main.saveFile(main.getPlayerData(), main.getPlayerDataFile());
 
                 player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "You have successfully registered with pin: " + pin);
             }else{
-                player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "You are already registered! If you would like to change your pin, contact an admin.");
+                player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "You are already registered! If you would like to change your pin, contact an admin.");
             }
 
         } else {
-            System.out.println(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "This command can only be used in-game.");
+            System.out.println(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "This command can only be used in-game.");
         }
         return false;
     }

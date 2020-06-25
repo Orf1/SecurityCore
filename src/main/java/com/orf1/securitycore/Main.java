@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -68,7 +69,7 @@ public final class Main extends JavaPlugin implements Listener {
 
         if (player.hasPermission("securitycore.staff")){
 
-            if (modifyPlayerData.get(player.getUniqueId().toString() + ".REGISTERED").equals(true)){
+            if (modifyPlayerData.get(player.getUniqueId().toString() + ".Registered").equals(true)){
                 player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "Welcome! Make sure to login using /login");
             }else {
                 player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "Welcome! Make sure to set a pin using /register");
@@ -78,18 +79,20 @@ public final class Main extends JavaPlugin implements Listener {
         }
 
         modifyPlayerData.createSection(player.getUniqueId().toString());
-        modifyPlayerData.createSection(player.getUniqueId().toString() + ".NAME");
-        modifyPlayerData.createSection(player.getUniqueId().toString() + ".IP");
-        modifyPlayerData.createSection(player.getUniqueId().toString() + ".REGISTERED");
-        modifyPlayerData.createSection(player.getUniqueId().toString() + ".PIN");
+        modifyPlayerData.createSection(player.getUniqueId().toString() + ".Name");
+        modifyPlayerData.createSection(player.getUniqueId().toString() + ".IPAddress");
+        modifyPlayerData.createSection(player.getUniqueId().toString() + ".Registered");
+        modifyPlayerData.createSection(player.getUniqueId().toString() + ".Pin");
+        modifyPlayerData.createSection(player.getUniqueId().toString() + ".LoggedIn");
 
         saveFile(modifyPlayerData, playerDataFile);
 
-        modifyPlayerData.set(player.getUniqueId().toString() + ".NAME", player.getName());
+        modifyPlayerData.set(player.getUniqueId().toString() + ".Name", player.getName());
         modifyPlayerData.set(player.getUniqueId().toString() + ".IP", e.getRealAddress().toString());
-        if (!modifyPlayerData.get(player.getUniqueId().toString() + ".REGISTERED").equals(true)){
-            modifyPlayerData.set(player.getUniqueId().toString() + ".REGISTERED", false);
-            modifyPlayerData.set(player.getUniqueId().toString() + ".PIN", "NA");
+        modifyPlayerData.set(player.getUniqueId().toString() + ".LoggedIn", false);
+        if (!modifyPlayerData.get(player.getUniqueId().toString() + ".Registered").equals(true)){
+            modifyPlayerData.set(player.getUniqueId().toString() + ".Registered", false);
+            modifyPlayerData.set(player.getUniqueId().toString() + ".Pin", "NA");
         }
 
         saveFile(modifyPlayerData, playerDataFile);
@@ -128,4 +131,18 @@ public final class Main extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
     }
+    @EventHandler
+    public void onCommand(PlayerCommandPreprocessEvent e) {
+        Player player = e.getPlayer();
+        boolean loggedIn = (boolean) modifyPlayerData.get(player.getUniqueId().toString() + ".LoggedIn");
+        if (player.hasPermission("securitycore.staff")){
+            if (!loggedIn) {
+                if (!e.getMessage().toLowerCase().contains("help") || !e.getMessage().toLowerCase().contains("login") || !e.getMessage().toLowerCase().contains("register")) {
+                    e.setCancelled(true);
+                    player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "You must be logged in to do that! /login");
+                }
+            }
+        }
+    }
+
 }
