@@ -17,7 +17,7 @@ public class RegisterCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            main.getTestFile().createSection("Users."+ player.getUniqueId());
+            main.getTestFile().set("Users", player.getUniqueId());
             try {
                 main.getTestFile().save(main.getFile());
             } catch (IOException e) {
