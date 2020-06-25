@@ -13,8 +13,7 @@ public class SetupCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        main.getTestFile().createSection("Users");
-        main.getTestFile().createSection("Blacklisted");
+
         try {
             main.getTestFile().save(main.getFile());
         } catch (IOException e) {
