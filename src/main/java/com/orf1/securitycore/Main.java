@@ -65,7 +65,17 @@ public final class Main extends JavaPlugin implements Listener {
     @EventHandler
     public void onJoin(PlayerLoginEvent e) {
         Player player = e.getPlayer();
-        e.getPlayer().sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "Welcome!");
+
+        if (player.hasPermission("securitycore.staff")){
+
+            if (modifyPlayerData.get(player.getUniqueId().toString() + ".REGISTERED").equals(true)){
+                player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "Welcome! Make sure to login using /login");
+            }else {
+                player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "Welcome! Make sure to set a pin using /register");
+            }
+        }else {
+            player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "Welcome to "+ getConfig().get("serverName") + "!");
+        }
 
         modifyPlayerData.createSection(player.getUniqueId().toString());
         modifyPlayerData.createSection(player.getUniqueId().toString() + ".NAME");
@@ -99,7 +109,7 @@ public final class Main extends JavaPlugin implements Listener {
     private void checkAuthentication() {
         System.out.println("[SecurityCore] Starting authentication");
 
-        if (this.getConfig().getBoolean("auth")) {
+        if (this.getConfig().getBoolean("enabled")) {
             System.out.println("[SecurityCore] Authentication complete");
         } else {
             System.out.println("[SecurityCore] Authentication failed");

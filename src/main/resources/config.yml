@@ -1,1 +1,10 @@
-auth: true
+#If the plugin should be enabled or not
+enabled: true
+
+#Do not touch!
+configVersion: 1.0
+
+#Name of the server to appear in messages
+
+serverName: "DefaultServer"
+
