@@ -79,7 +79,7 @@ public final class Main extends JavaPlugin implements Listener {
         modifyPlayerData.set(player.getUniqueId().toString() + ".IP", e.getRealAddress().toString());
         if (!modifyPlayerData.get(player.getUniqueId().toString() + ".REGISTERED").equals(true)){
             modifyPlayerData.set(player.getUniqueId().toString() + ".REGISTERED", false);
-            modifyPlayerData.set(player.getUniqueId().toString() + ".PIN", (String) "NA");
+            modifyPlayerData.set(player.getUniqueId().toString() + ".PIN", "NA");
         }
 
         saveFile(modifyPlayerData, playerDataFile);

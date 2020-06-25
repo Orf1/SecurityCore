@@ -16,6 +16,15 @@ public class RegisterCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
+            if(args.length != 1){
+                player.sendMessage("Invalid Args!");
+            }else if (main.getPlayerData().get(player.getUniqueId().toString() + ".REGISTERED").equals(false)){
+                String pin = args[0];
+                main.getPlayerData().set(player.getUniqueId().toString() + ".PIN", pin);
+                main.getPlayerData().set(player.getUniqueId().toString() + ".REGISTERED", true);
+            }else{
+                player.sendMessage("You are already registered! If you would like to change your pin, contact an admin.");
+            }
 
 
         } else {
@@ -25,3 +34,9 @@ public class RegisterCommand implements CommandExecutor {
     }
 
 }
+/*if (main.getPlayerData().get(player.getUniqueId().toString() + ".REGISTERED").equals(false) ){
+  }else {
+
+            }
+ */
+
