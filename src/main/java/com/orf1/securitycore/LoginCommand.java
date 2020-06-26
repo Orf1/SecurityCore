@@ -19,13 +19,19 @@ public class LoginCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "Invalid usage! /login [pin]");
 
             }else if (main.getPlayerData().get(player.getUniqueId().toString() + ".LoggedIn").equals(false)){
+
                 String pin = main.getPlayerData().get(player.getUniqueId().toString() + ".Pin").toString();
-                if(args[0].equals(pin)){
-                    player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "You have successfully logged in!");
-                    main.getPlayerData().set(player.getUniqueId().toString() + ".LoggedIn", true);
-                    main.saveFile(main.getPlayerData(), main.getPlayerDataFile());
-                }else {
+                if (main.getPlayerData().get(player.getUniqueId().toString() + ".Registered").equals(true)) {
+                if(main.hash(args[0]).equals(pin)){
+
+                        player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "You have successfully logged in!");
+                        main.getPlayerData().set(player.getUniqueId().toString() + ".LoggedIn", true);
+                        main.saveFile(main.getPlayerData(), main.getPlayerDataFile());
+                    }else {
                     player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "Incorrect Pin!");
+                }
+                }else{
+                    player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "You are not registered. Please register using /register before logging in.");
                 }
 
             }else{

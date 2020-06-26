@@ -11,11 +11,19 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import javax.swing.plaf.IconUIResource;
 import java.io.File;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.KeySpec;
 
 
 public final class Main extends JavaPlugin implements Listener {
+
 
     private File playerDataFile;
     private YamlConfiguration modifyPlayerData;
@@ -64,6 +72,7 @@ public final class Main extends JavaPlugin implements Listener {
         System.out.println("[SecurityCore] Player logged in with IP:" + e.getRealAddress());
         Player player = e.getPlayer();
         if (!modifyPlayerData.contains(player.getUniqueId().toString())) {
+            System.out.println("Contains Player");
             modifyPlayerData.createSection(player.getUniqueId().toString());
             modifyPlayerData.createSection(player.getUniqueId().toString() + ".Name");
             modifyPlayerData.createSection(player.getUniqueId().toString() + ".IPAddress");
@@ -77,8 +86,9 @@ public final class Main extends JavaPlugin implements Listener {
         modifyPlayerData.set(player.getUniqueId().toString() + ".IP", e.getRealAddress().toString());
         modifyPlayerData.set(player.getUniqueId().toString() + ".LoggedIn", false);
 
-        if (!modifyPlayerData.get(player.getUniqueId().toString() + ".Registered").equals("true")){
-            modifyPlayerData.set(player.getUniqueId().toString() + ".Registered", "false");
+        if (!modifyPlayerData.get(player.getUniqueId().toString() + ".Registered").equals(true)){
+            System.out.println("Player is not registered");
+            modifyPlayerData.set(player.getUniqueId().toString() + ".Registered", false);
             modifyPlayerData.set(player.getUniqueId().toString() + ".Pin", "NA");
         }
 
@@ -91,7 +101,7 @@ public final class Main extends JavaPlugin implements Listener {
 
         if (player.hasPermission("securitycore.staff")){
 
-            if (modifyPlayerData.get(player.getUniqueId().toString() + ".Registered").equals("true")){
+            if (modifyPlayerData.get(player.getUniqueId().toString() + ".Registered").equals(true)){
                 player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "Welcome! Make sure to login using /login");
             }else {
                 player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.WHITE + "Welcome! Make sure to set a pin using /register");
@@ -138,6 +148,18 @@ public final class Main extends JavaPlugin implements Listener {
                 }
             }
         }
+    }
+    public String hash(String input){
+
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        md.update(input.getBytes());
+        byte[] bytes = md.digest();
+        return bytes.toString();
     }
 
 }
