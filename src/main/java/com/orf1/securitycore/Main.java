@@ -80,7 +80,7 @@ public final class Main extends JavaPlugin implements Listener {
         }
 
         modifyPlayerData.set(player.getUniqueId().toString() + ".Name", player.getName());
-        modifyPlayerData.set(player.getUniqueId().toString() + ".IP", e.getRealAddress().toString());
+        modifyPlayerData.set(player.getUniqueId().toString() + ".IPAddress", e.getRealAddress().toString());
         modifyPlayerData.set(player.getUniqueId().toString() + ".LoggedIn", false);
 
         if (!modifyPlayerData.get(player.getUniqueId().toString() + ".Registered").equals(true)){
