@@ -6,7 +6,11 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,9 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 public final class Main extends JavaPlugin implements Listener {
@@ -113,6 +115,7 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("securitycore").setExecutor(new SecurityCoreCommand());
         getCommand("login").setExecutor(new LoginCommand());
         getCommand("register").setExecutor(new RegisterCommand());
+        getCommand("reset").setExecutor(new ResetCommand());
     }
 
     public void registerEvents() {
@@ -137,17 +140,57 @@ public final class Main extends JavaPlugin implements Listener {
         Player player = e.getPlayer();
         boolean loggedIn = (boolean) modifyPlayerData.get(player.getUniqueId().toString() + ".LoggedIn");
 
-        if (player.hasPermission("securitycore.staff")){
+        if (player.hasPermission("securitycore.force")){
             if (!loggedIn) {
-                if (!e.getMessage().toLowerCase().contains("help") && !e.getMessage().toLowerCase().contains("login") && !e.getMessage().toLowerCase().contains("register")) {
+                if (!e.getMessage().toLowerCase().startsWith("/help") && !e.getMessage().toLowerCase().startsWith("/login") && !e.getMessage().toLowerCase().startsWith("/register")) {
                     e.setCancelled(true);
                     player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "You must be logged in to do that! /login");
                 }
             }
         }
     }
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e){
+        Player player = e.getPlayer();
+        boolean loggedIn = (boolean) modifyPlayerData.get(player.getUniqueId().toString() + ".LoggedIn");
+
+        if (player.hasPermission("securitycore.force")){
+            if (!loggedIn) {
+                    e.setCancelled(true);
+                    player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "You must be logged in to do that! /login");
+
+            }
+        }
+    }
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent e){
+        Player player = e.getPlayer();
+        boolean loggedIn = (boolean) modifyPlayerData.get(player.getUniqueId().toString() + ".LoggedIn");
+
+        if (player.hasPermission("securitycore.force")){
+            if (!loggedIn) {
+                e.setCancelled(true);
+                player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "You must be logged in to do that! /login");
+
+            }
+        }
+    }
+    @EventHandler
+    public void onItem(PlayerDropItemEvent e){
+        Player player = e.getPlayer();
+        boolean loggedIn = (boolean) modifyPlayerData.get(player.getUniqueId().toString() + ".LoggedIn");
+
+        if (player.hasPermission("securitycore.force")){
+            if (!loggedIn) {
+                e.setCancelled(true);
+                player.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "You must be logged in to do that! /login");
+
+            }
+        }
+    }
+
     public static String hashString(String input) throws Exception{
-        MessageDigest messageDigest=MessageDigest.getInstance("MD5");
+        MessageDigest messageDigest=MessageDigest.getInstance("SHA-256");
         messageDigest.update(input.getBytes(),0,input.length());
         return new BigInteger(1,messageDigest.digest()).toString(16);
     }

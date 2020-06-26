@@ -16,3 +16,4 @@ commands:
   register:
   authenticate:
   setup:
+  reset:
