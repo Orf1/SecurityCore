@@ -11,15 +11,12 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import javax.swing.plaf.IconUIResource;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.KeySpec;
 
 
 public final class Main extends JavaPlugin implements Listener {
@@ -149,17 +146,10 @@ public final class Main extends JavaPlugin implements Listener {
             }
         }
     }
-    public String hash(String input){
-
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        md.update(input.getBytes());
-        byte[] bytes = md.digest();
-        return bytes.toString();
+    public static String hashString(String input) throws Exception{
+        MessageDigest messageDigest=MessageDigest.getInstance("MD5");
+        messageDigest.update(input.getBytes(),0,input.length());
+        return new BigInteger(1,messageDigest.digest()).toString(16);
     }
 
 }
