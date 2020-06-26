@@ -26,8 +26,9 @@ public class ResetCommand implements CommandExecutor {
             } else {
                 sender.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "Invalid usage! /reset [player]");
             }
+        }else {
+            sender.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "You do not have permission to use this command!");
         }
-        sender.sendMessage(ChatColor.GREEN + "[SecurityCore] " + ChatColor.RED + "You do not have permission to use this command!");
         return false;
     }
 }
