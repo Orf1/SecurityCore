@@ -34,7 +34,8 @@ public final class Main extends JavaPlugin implements Listener {
         registerEvents();
         registerCommands();
         initiateFiles();
-
+        int pluginId = 8007; // <-- Replace with the id of your plugin!
+        Metrics metrics = new Metrics(this, pluginId);
         System.out.println("[SecurityCore] Initialization complete");
     }
 
